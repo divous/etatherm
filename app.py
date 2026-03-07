@@ -98,9 +98,11 @@ def refresh_temperatures(eth):
         real = eth.retrieveRealTemperature()
         if real:
             eth.setAddressRealTemperature(real)
-        # retrieveTargetTemperature() nelze volat — bug v origin/etatherm.py řádek 1604
-        # (initAddressParameters přepíše metodu dictem). targetTemp je součástí
-        # retrieveAddressParameters(), takže se načte níže.
+        target = eth.retrieveTargetTemperature
+        if callable(target):
+            target = target()
+        if target:
+            eth.setAddressTargetTemperature(target)
         addr = eth.retrieveAddressParameters()
         if addr:
             eth.setAddressParameters(addr)
