@@ -89,9 +89,59 @@ ETATHERM_MOCK=1 python3 app.py
 9=r obývák, 10=r zimní zahrada, 11=vstup, 12=koupelna, 13=kuchyň, 14=obývák,
 15=černé podlaží, 16=zimní zahrada R
 
+## Home Assistant integrace
+
+```
+custom_components/etatherm/
+├── __init__.py          — setup, registrace služeb set_roz / cancel_roz
+├── config_flow.py       — UI: zadej IP + port, test TCP spojení
+├── const.py             — konstanty, ROOM_NAMES, exclude [15]
+├── client.py            — EtathermClient (wrapper nad origin knihovnou)
+├── coordinator.py       — DataUpdateCoordinator (polling 60s)
+├── climate.py           — ClimateEntity per místnost (AUTO/HEAT)
+├── sensor.py            — 2 senzory per místnost (skutečná + cílová teplota)
+├── binary_sensor.py     — ROZ aktivní/neaktivní per místnost
+├── services.yaml        — definice služeb pro HA UI
+├── dashboard.yaml       — hotový dashboard (grid layout + history grafy)
+├── etatherm_lib/        — kopie origin knihovny
+└── www/                 — custom Lovelace karta (nepoužíváme, máme tile karty)
+```
+
 ## Poznámky
 
 - `heatingMaps` v origin/etatherm.py jsou hardcodované pro autora — nepoužíváme je
 - Origin knihovna importuje `paho-mqtt` na top-level — musí být nainstalován i když MQTT nepoužíváme
 - Mock knihovna má vnořenou třídu `etatherm.etatherm.etatherm`, origin má `etatherm.etatherm` — app.py detekuje automaticky
-- Řádek 1604 v origin/etatherm.py má bug: `self.retrieveTargetTemperature` bez `()` — targetTemp se nastaví přes `setAddressParameters()` místo toho
+- Řádek 1604 v origin/etatherm.py: `self.retrieveTargetTemperature` bez `()` — ale je to `@property`, takže funguje správně
+
+## Lessons learned (DŮLEŽITÉ — dodržovat!)
+
+### Testování
+- **Vždy testovat proti reálné jednotce**, ne mocku, když se řeší reálná data nebo porovnání s WE3 frontendem
+- Mock má fake data a neimplementuje všechny metody (chybí retrieveGOCParameters, retrieveAllActiveHeatingPrograms)
+
+### Origin vs Mock — rozdíly v API
+- `retrieveTargetTemperature` je v origin `@property` (řádek 446), v mocku obyčejná metoda
+- Přístup: `target = eth.retrieveTargetTemperature` + `if callable(target): target = target()`
+- Vždy ověřit zda origin a mock mají stejné rozhraní pro danou funkci
+
+### Origin knihovna — logging
+- `__init__` volá `logging.basicConfig(filename='/var/log/etatherm.log')` → selže bez root práv
+- Řešení: nastavit logging PŘED importem, nebo patchovat basicConfig (viz client.py řádek 27–37)
+
+### HA dashboard
+- `climate-hvac-modes` s jedním režimem zobrazí velké zbytečné tlačítko — nepoužívat v tile kartě
+- Auto přepínač nechat v detailu entity (klik na kartu)
+- `horizontal-stack` na mobilu mačká karty → použít `grid` s `columns: 3` + `square: false`
+- `type: panel` + `vertical-stack` = skupiny pod sebou; grid uvnitř = zalamování dlaždic
+- Bez `type: panel` masonry layout hází skupiny vedle sebe — nežádoucí
+
+### UX principy
+- PIN: pokud prázdný v configu → neptat se, žádný dialog
+- +/− tlačítka místo slideru pro nastavení teploty
+- Heat tlačítko nepotřeba — stačí indikátor ROZ + "Zpět na program" (jen když ROZ aktivní)
+- +/− v Auto režimu automaticky aktivuje ROZ (žádné explicitní přepínání režimu)
+
+### Refresh dat
+- `retrieveTargetTemperature` MUSÍ být v refresh cyklu, jinak cílová teplota jde stale při změně časového bloku programu
+- Refresh cyklus: retrieveRealTemperature → setAddressRealTemperature → retrieveTargetTemperature → setAddressTargetTemperature → retrieveAddressParameters → setAddressParameters
