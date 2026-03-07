@@ -1,0 +1,49 @@
+set_roz:
+  name: Nastavit ROZ
+  description: Nastaví rychlou operativní změnu teploty pro místnost.
+  fields:
+    device_id:
+      name: ID adresy
+      description: ID adresy topení (1-16).
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 16
+          mode: box
+    temperature:
+      name: Teplota
+      description: Cílová teplota v °C.
+      required: false
+      default: 21
+      selector:
+        number:
+          min: 6
+          max: 35
+          step: 1
+          unit_of_measurement: "°C"
+    duration_hours:
+      name: Doba trvání
+      description: Doba trvání v hodinách.
+      required: false
+      default: 48
+      selector:
+        number:
+          min: 1
+          max: 720
+          step: 1
+          unit_of_measurement: "h"
+
+cancel_roz:
+  name: Zrušit ROZ
+  description: Zruší rychlou operativní změnu pro místnost.
+  fields:
+    device_id:
+      name: ID adresy
+      description: ID adresy topení (1-16).
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 16
+          mode: box

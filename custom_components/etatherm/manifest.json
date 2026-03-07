@@ -1,0 +1,10 @@
+{
+  "domain": "etatherm",
+  "name": "Etatherm ETH1eD",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/mbisak/etatherm-ha-bridge",
+  "iot_class": "local_polling",
+  "version": "1.0.0",
+  "requirements": ["paho-mqtt>=1.6.0", "schedule>=1.2.0"]
+}

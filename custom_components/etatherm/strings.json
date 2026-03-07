@@ -1,0 +1,20 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Etatherm ETH1eD",
+        "description": "Zadejte připojení k WE3 WiFi modulu.",
+        "data": {
+          "host": "IP adresa",
+          "port": "Port"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Etatherm je již nakonfigurován."
+    },
+    "error": {
+      "cannot_connect": "Nelze se připojit k Etatherm jednotce."
+    }
+  }
+}

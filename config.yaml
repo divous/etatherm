@@ -1,0 +1,62 @@
+# Etatherm ETH1eD + WE3 — Konfigurace
+# ======================================
+
+etatherm:
+  # IP adresa WE3 modulu v lokální síti
+  host: "192.168.68.75"
+  # TCP port (proprietární protokol Etatherm, NE MODBUS)
+  port: 50001
+  # Adresa sběrnice (výchozí: 0x00, 0x01)
+  bus_high: 0
+  bus_low: 1
+
+# Topení, která chcete ovládat
+# device_id = číslo adresy v Etatherm systému (1–16)
+# name = zobrazovaný název
+heaters:
+  - name: "Šatna"
+    device_id: 1
+  - name: "Maja"
+    device_id: 2
+  - name: "Anka"
+    device_id: 3
+  - name: "Vašek"
+    device_id: 4
+  - name: "Tom"
+    device_id: 5
+  - name: "Ložnice"
+    device_id: 6
+  - name: "Žlutý pokoj"
+    device_id: 7
+  - name: "Schodiště"
+    device_id: 8
+  - name: "R obývák"
+    device_id: 9
+  - name: "R zimní zahrada"
+    device_id: 10
+  - name: "Vstup"
+    device_id: 11
+  - name: "Koupelna"
+    device_id: 12
+  - name: "Kuchyň"
+    device_id: 13
+  - name: "Obývák"
+    device_id: 14
+  - name: "Černé podlaží"
+    device_id: 15
+  - name: "Zimní zahrada R"
+    device_id: 16
+
+# Webový server
+web:
+  host: "0.0.0.0"
+  port: 8080
+  # PIN pro zabezpečení (prázdný = bez PINu)
+  pin: ""
+
+# Limity pro operativní změnu
+defaults:
+  temp_min: 6
+  temp_max: 35
+  temp_step: 0.5
+  default_temp: 22.0

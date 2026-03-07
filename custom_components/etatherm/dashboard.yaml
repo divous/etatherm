@@ -1,0 +1,250 @@
+title: Topení
+views:
+- title: Topení
+  path: topeni
+  type: panel
+  cards:
+    - type: vertical-stack
+      cards:
+        - type: markdown
+          content: "## 1. patro"
+        - type: grid
+          columns: 3
+          square: false
+          cards:
+            - type: tile
+              entity: climate.maja
+              name: Maja
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.anka
+              name: Anka
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.vasek
+              name: Vašek
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.satna
+              name: Šatna
+              features:
+                - type: target-temperature
+
+        - type: markdown
+          content: "## Přízemí"
+        - type: grid
+          columns: 3
+          square: false
+          cards:
+            - type: tile
+              entity: climate.tom
+              name: Tom
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.loznice
+              name: Ložnice
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.zluty_pokoj
+              name: Žlutý pokoj
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.koupelna
+              name: Koupelna
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.schodiste
+              name: Schodiště
+              features:
+                - type: target-temperature
+
+        - type: markdown
+          content: "## Společné"
+        - type: grid
+          columns: 3
+          square: false
+          cards:
+            - type: tile
+              entity: climate.obyvak
+              name: Obývák
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.r_obyvak
+              name: Obývák (R)
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.kuchyn
+              name: Kuchyň
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.vstup
+              name: Vstup
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.r_zimni_zahrada
+              name: Zimní zahrada (R)
+              features:
+                - type: target-temperature
+            - type: tile
+              entity: climate.zimni_zahrada_r
+              name: Zimní zahrada
+              features:
+                - type: target-temperature
+
+- title: Grafy
+  path: grafy
+  type: panel
+  cards:
+    - type: vertical-stack
+      cards:
+        - type: markdown
+          content: "## 1. patro"
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: history-graph
+              title: Maja
+              hours_to_show: 24
+              entities:
+                - entity: sensor.maja_teplota
+                  name: Skutečná
+                - entity: sensor.maja_cil
+                  name: Cílová
+            - type: history-graph
+              title: Anka
+              hours_to_show: 24
+              entities:
+                - entity: sensor.anka_teplota
+                  name: Skutečná
+                - entity: sensor.anka_cil
+                  name: Cílová
+            - type: history-graph
+              title: Vašek
+              hours_to_show: 24
+              entities:
+                - entity: sensor.vasek_teplota
+                  name: Skutečná
+                - entity: sensor.vasek_cil
+                  name: Cílová
+            - type: history-graph
+              title: Šatna
+              hours_to_show: 24
+              entities:
+                - entity: sensor.satna_teplota
+                  name: Skutečná
+                - entity: sensor.satna_cil
+                  name: Cílová
+
+        - type: markdown
+          content: "## Přízemí"
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: history-graph
+              title: Tom
+              hours_to_show: 24
+              entities:
+                - entity: sensor.tom_teplota
+                  name: Skutečná
+                - entity: sensor.tom_cil
+                  name: Cílová
+            - type: history-graph
+              title: Ložnice
+              hours_to_show: 24
+              entities:
+                - entity: sensor.loznice_teplota
+                  name: Skutečná
+                - entity: sensor.loznice_cil
+                  name: Cílová
+            - type: history-graph
+              title: Žlutý pokoj
+              hours_to_show: 24
+              entities:
+                - entity: sensor.zluty_pokoj_teplota
+                  name: Skutečná
+                - entity: sensor.zluty_pokoj_cil
+                  name: Cílová
+            - type: history-graph
+              title: Koupelna
+              hours_to_show: 24
+              entities:
+                - entity: sensor.koupelna_teplota
+                  name: Skutečná
+                - entity: sensor.koupelna_cil
+                  name: Cílová
+            - type: history-graph
+              title: Schodiště
+              hours_to_show: 24
+              entities:
+                - entity: sensor.schodiste_teplota
+                  name: Skutečná
+                - entity: sensor.schodiste_cil
+                  name: Cílová
+
+        - type: markdown
+          content: "## Společné"
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: history-graph
+              title: Obývák
+              hours_to_show: 24
+              entities:
+                - entity: sensor.obyvak_teplota
+                  name: Skutečná
+                - entity: sensor.obyvak_cil
+                  name: Cílová
+            - type: history-graph
+              title: Obývák (radiátory)
+              hours_to_show: 24
+              entities:
+                - entity: sensor.r_obyvak_teplota
+                  name: Skutečná
+                - entity: sensor.r_obyvak_cil
+                  name: Cílová
+            - type: history-graph
+              title: Kuchyň
+              hours_to_show: 24
+              entities:
+                - entity: sensor.kuchyn_teplota
+                  name: Skutečná
+                - entity: sensor.kuchyn_cil
+                  name: Cílová
+            - type: history-graph
+              title: Vstup
+              hours_to_show: 24
+              entities:
+                - entity: sensor.vstup_teplota
+                  name: Skutečná
+                - entity: sensor.vstup_cil
+                  name: Cílová
+            - type: history-graph
+              title: Zimní zahrada (radiátory)
+              hours_to_show: 24
+              entities:
+                - entity: sensor.r_zimni_zahrada_teplota
+                  name: Skutečná
+                - entity: sensor.r_zimni_zahrada_cil
+                  name: Cílová
+            - type: history-graph
+              title: Zimní zahrada
+              hours_to_show: 24
+              entities:
+                - entity: sensor.zimni_zahrada_r_teplota
+                  name: Skutečná
+                - entity: sensor.zimni_zahrada_r_cil
+                  name: Cílová
