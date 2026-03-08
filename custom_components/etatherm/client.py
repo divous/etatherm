@@ -129,11 +129,6 @@ class EtathermClient:
             real = eth.retrieveRealTemperature()
             if real:
                 eth.setAddressRealTemperature(real)
-            target = eth.retrieveTargetTemperature
-            if callable(target):
-                target = target()
-            if target:
-                eth.setAddressTargetTemperature(target)
             addr = eth.retrieveAddressParameters()
             if addr:
                 eth.setAddressParameters(addr)

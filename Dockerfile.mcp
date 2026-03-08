@@ -1,0 +1,10 @@
+FROM python:3.13-slim
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir mcp pyyaml paho-mqtt schedule
+
+COPY origin/etatherm.py origin/etatherm.py
+COPY mcp_server.py config.yaml ./
+
+CMD ["python", "mcp_server.py"]

@@ -3,7 +3,7 @@
 
 etatherm:
   # IP adresa WE3 modulu v lokální síti
-  host: "192.168.68.75"
+  host: "YOUR_ETATHERM_IP"
   # TCP port (proprietární protokol Etatherm, NE MODBUS)
   port: 50001
   # Adresa sběrnice (výchozí: 0x00, 0x01)

@@ -8,99 +8,198 @@ views:
       cards:
         - type: markdown
           content: "## 1. patro"
-        - type: grid
-          columns: 3
-          square: false
+        - type: horizontal-stack
           cards:
             - type: tile
               entity: climate.maja
               name: Maja
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.anka
               name: Anka
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.vasek
               name: Vašek
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.satna
               name: Šatna
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
 
         - type: markdown
           content: "## Přízemí"
-        - type: grid
-          columns: 3
-          square: false
+        - type: horizontal-stack
           cards:
             - type: tile
               entity: climate.tom
               name: Tom
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.loznice
               name: Ložnice
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.zluty_pokoj
               name: Žlutý pokoj
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.koupelna
               name: Koupelna
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.schodiste
               name: Schodiště
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
 
         - type: markdown
           content: "## Společné"
-        - type: grid
-          columns: 3
-          square: false
+        - type: horizontal-stack
           cards:
             - type: tile
               entity: climate.obyvak
               name: Obývák
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.r_obyvak
-              name: Obývák (R)
+              name: Obývák (radiátory)
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.kuchyn
               name: Kuchyň
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.vstup
               name: Vstup
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.r_zimni_zahrada
-              name: Zimní zahrada (R)
+              name: Zimní zahrada (radiátory)
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
             - type: tile
               entity: climate.zimni_zahrada_r
               name: Zimní zahrada
+              state_content:
+                - current_temperature
+                - hvac_action
+                - state
               features:
                 - type: target-temperature
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - auto
 
 - title: Grafy
   path: grafy
@@ -110,9 +209,7 @@ views:
       cards:
         - type: markdown
           content: "## 1. patro"
-        - type: grid
-          columns: 2
-          square: false
+        - type: horizontal-stack
           cards:
             - type: history-graph
               title: Maja
@@ -146,12 +243,9 @@ views:
                   name: Skutečná
                 - entity: sensor.satna_cil
                   name: Cílová
-
         - type: markdown
           content: "## Přízemí"
-        - type: grid
-          columns: 2
-          square: false
+        - type: horizontal-stack
           cards:
             - type: history-graph
               title: Tom
@@ -193,12 +287,9 @@ views:
                   name: Skutečná
                 - entity: sensor.schodiste_cil
                   name: Cílová
-
         - type: markdown
           content: "## Společné"
-        - type: grid
-          columns: 2
-          square: false
+        - type: horizontal-stack
           cards:
             - type: history-graph
               title: Obývák

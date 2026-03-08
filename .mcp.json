@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "etatherm": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run", "--rm", "-i", "--network", "host",
+        "etatherm-mcp"
+      ],
+      "env": {}
+    }
+  }
+}

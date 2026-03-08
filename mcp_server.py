@@ -23,7 +23,7 @@ from pathlib import Path
 
 from mcp.server.fastmcp import FastMCP
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", stream=sys.stderr)
 log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -211,17 +211,37 @@ def set_temperature(device_id: int, temp: float, duration_hours: float | None = 
 
     with eth_lock:
         eth = get_eth()
-        eth.setFOCTemperature(device_id, temp)
+        offset = eth.addressParameters.get(device_id, {}).get("tempOffset", 5)
 
         if duration_hours is not None:
             blocks = int(duration_hours * 4)  # bloky po 15 minutách
-            eth.addressParameters[device_id]["opChangePresetLength"] = blocks
-            log.info("Nastavena délka FOC: %d bloků (%.0f h)", blocks, duration_hours)
+        else:
+            blocks = eth.addressParameters[device_id].get("opChangePresetLength", 8)
+
+        # 1. Zapsat ROZ preset do registru 0x10B0 (volitelné, pokud selže, pokračujeme)
+        try:
+            eth.etathermSessionOpen()
+            err = eth.storeFOCParams(device_id, "fastchange", int(temp), blocks)
+            eth.etathermSessionClose()
+            if err:
+                log.warning("storeFOCParams selhalo pro adresu %d, pokračuji", device_id)
+            else:
+                log.info("ROZ preset zapsán do 0x10B0: adresa=%d, temp=%d°C, bloky=%d", device_id, int(temp), blocks)
+        except Exception as e:
+            log.warning("storeFOCParams výjimka: %s, pokračuji", e)
+            try:
+                eth.etathermSessionClose()
+            except Exception:
+                pass
+
+        # 2. Nastavit teplotu v paměti a aktivovat
+        eth.setFOCTemperature(device_id, temp)
+        eth.addressParameters[device_id]["opChangePresetLength"] = blocks
 
         err = eth.activateFOC(device_id)
         if err:
             return f"Chyba aktivace operativní změny pro zařízení {device_id}"
-        time.sleep(0.5)
+        time.sleep(1)
         refresh_temperatures(eth)
 
     duration_info = f" na {duration_hours}h" if duration_hours else ""
@@ -237,10 +257,12 @@ def cancel_temperature(device_id: int) -> str:
     """
     with eth_lock:
         eth = get_eth()
+        log.info("cancel_temperature: volám deactivateFOC pro adresu %d", device_id)
         err = eth.deactivateFOC(device_id)
+        log.info("cancel_temperature: deactivateFOC vrátilo %s", err)
         if err:
             return f"Chyba deaktivace operativní změny pro zařízení {device_id}"
-        time.sleep(0.5)
+        time.sleep(1)
         refresh_temperatures(eth)
 
     return f"Operativní změna zrušena pro zařízení {device_id}, topení zpět na program"
@@ -249,4 +271,10 @@ def cancel_temperature(device_id: int) -> str:
 if __name__ == "__main__":
     log.info(f"Etatherm MCP server — {'origin' if _use_origin else 'mock'} knihovna")
     log.info(f"Etatherm: {CFG['etatherm']['host']}:{CFG['etatherm']['port']}")
+    with eth_lock:
+        try:
+            get_eth()
+            log.info("Eager init úspěšný")
+        except Exception as e:
+            log.warning(f"Init při startu selhal: {e} — zkusím znovu při prvním požadavku")
     mcp.run()
