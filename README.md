@@ -6,7 +6,7 @@ Komunikuje přes proprietární Etatherm protokol (TCP port 50001) pomocí kniho
 
 ## Požadavky
 
-- Python 3.9+
+- Python 3.13+
 - Raspberry Pi (nebo jiný Linux) ve stejné síti jako WE3
 - WE3 firmware ≥ we3-375
 
@@ -36,7 +36,7 @@ Upravte `config.yaml`:
 
 ```yaml
 etatherm:
-  host: "192.168.68.75"   # IP adresa vašeho WE3
+  host: "YOUR_ETATHERM_IP"  # IP adresa vašeho WE3
   port: 50001
 
 heaters:
